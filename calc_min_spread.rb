@@ -1,18 +1,19 @@
 class CalcMinSpread
-  attr_accessor :data
-
   def initialize(file)
-    @min_spread_date = -1
+    @min_spread_date
     min_spread = 1.0 / 0.0
+    # read in the file and start processing
     data = File.readlines(file).collect do |line|
-      _, date, max, min = line.split(/\ +/)
+      _placeholder, date, max, min = line.split(/\ +/)
       date, max, min = date.to_i, max.to_i, min.to_i
       next if date == 0
+      # find a potential min_spread date, save the min spread and the date
       if max - min < min_spread
         min_spread = max - min
         @min_spread_date = date
       end
     end
+    # after running the initializer, min_spread_date has already been found
   end
 
   def calc_min
